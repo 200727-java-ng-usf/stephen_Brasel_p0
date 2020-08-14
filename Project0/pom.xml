@@ -13,6 +13,14 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+    <!--POM - Project Object Model -->
+    <!--Configuration file-->
+    <!--XML - Extensible Markup Language -->
+    <!--XSD - XML Schema Definition-->
+    <!--    MAVEN - Dependency Management Tool
+                  - Build Automation Tool-->
+    <!--.jar - Java Archive file (compressed file)-->
+
     <dependencies>
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
