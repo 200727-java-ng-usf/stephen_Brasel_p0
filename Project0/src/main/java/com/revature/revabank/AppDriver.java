@@ -1,16 +1,10 @@
 package com.revature.revabank;
 
 
-import com.revature.revabank.dataStructures.Operator;
 import com.revature.revabank.repos.UserRepository;
 import com.revature.revabank.screens.LoginScreen;
 import com.revature.revabank.screens.RegisterScreen;
-import com.revature.revabank.screens.Screen;
-import com.revature.revabank.services.BankService;
 import com.revature.revabank.services.UserService;
-
-import java.util.Set;
-import java.util.TreeSet;
 
 public class AppDriver {
 	private static boolean debug = true;

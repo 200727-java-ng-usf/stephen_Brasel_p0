@@ -27,9 +27,9 @@ public abstract class Account {
 			//TODO throw new custom exception
 			throw new RuntimeException("Negative withdrawals are not allowed.");
 		}
-		if(Double.compare((amount - balance), 0) < 0){ //
+		if(Double.compare((balance - amount), 0) < 0){ //
 			//TODO throw new custom exception
-			throw new RuntimeException("Withdrawl failed: lack of funds.");
+			throw new RuntimeException("Withdrawal failed: lack of funds.");
 		}
 		balance -= amount;
 		return amount;
