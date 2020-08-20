@@ -4,34 +4,48 @@ import java.util.Stack;
 
 public abstract class Account {
 	private String id;
+	private AppUser owner;
 	private String name;
 	private double balance;
 	private Stack<Transaction> history;
 
-	public double deposit(double amount){
-		//edge cases
-		if(amount < 0){
-			//TODO throw new custom exception
-			throw new RuntimeException("Negative deposits are not allowed.");
-		}
-		if(amount + balance == Double.POSITIVE_INFINITY){ //
-			//TODO throw new custom exception
-			throw new RuntimeException("Infinite Money. You've crashed all economies.");
-		}
-		return balance += amount;
+	public String getId() {
+		return id;
 	}
 
-	public double withdraw(double amount){
-		//edge cases
-		if(amount < 0){
-			//TODO throw new custom exception
-			throw new RuntimeException("Negative withdrawals are not allowed.");
-		}
-		if(Double.compare((balance - amount), 0) < 0){ //
-			//TODO throw new custom exception
-			throw new RuntimeException("Withdrawal failed: lack of funds.");
-		}
-		balance -= amount;
-		return amount;
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public AppUser getOwner() {
+		return owner;
+	}
+
+	public void setOwner(AppUser owner) {
+		this.owner = owner;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	public Stack<Transaction> getHistory() {
+		return history;
+	}
+
+	public void setHistory(Stack<Transaction> history) {
+		this.history = history;
 	}
 }
