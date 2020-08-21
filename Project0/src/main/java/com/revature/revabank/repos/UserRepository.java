@@ -1,18 +1,20 @@
 package com.revature.revabank.repos;
 
-import com.revature.revabank.db.UserDB;
 import com.revature.revabank.models.AppUser;
 import com.revature.revabank.models.Role;
+import com.revature.revabank.util.ConnectionFactory;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
-
-import static com.revature.revabank.db.UserDB.userDataset;
 
 public class UserRepository implements CrudRepository<AppUser>{
 
 	//region Fields
-	private UserDB userDataBase = userDataset;
 	//endregion
 
 	//region Constructors
@@ -26,20 +28,52 @@ public class UserRepository implements CrudRepository<AppUser>{
 		return new HashSet<>();
 	}
 
-	public AppUser findUserByUsername(String username){
-		return userDataset.findUserByUsername(username);
+	public Optional<AppUser> findUserByUsername(String username){
+//		return userDataset.findUserByUsername(username);
+		return Optional.of(null);
 	}
 
-	public AppUser findUserByCredentials(String username, String pw){
-		return userDataset.findUserByCredentials(username, pw);
+	public Optional<AppUser> findUserByCredentials(String username, String password){
+
+		Optional<AppUser> _user = Optional.empty();
+
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+
+			String sql = "SELECT * FROM revabooks.app_users WHERE username = ? AND password = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, username);
+			pstmt.setString(2, password);
+
+			ResultSet rs =  pstmt.executeQuery();
+
+			AppUser appUser = new AppUser();
+
+			while(rs.next()){
+				appUser.setId(rs.getInt("id"));
+				appUser.setUserName(rs.getString("username"));
+				appUser.setPassword(rs.getString("password"));
+				appUser.setFirstName(rs.getString("first_name"));
+				appUser.setLastName(rs.getString("last_name"));
+//				appUser.setEmail(rs.getString("email"));
+//				appUser.setRole(rs.getString("role_id"));
+			}
+
+			_user = Optional.of(appUser);
+
+		} catch(SQLException sqle){
+			sqle.printStackTrace();
+		}
+
+
+		return _user;
 
 	}
 	//endregion
 
 	//region Overridden Methods
 	@Override
-	public AppUser save(AppUser user){
-		return userDataset.addUser(user);
+	public Optional<AppUser> save(AppUser user){
+		return Optional.of(null);
 	}
 
 	@Override

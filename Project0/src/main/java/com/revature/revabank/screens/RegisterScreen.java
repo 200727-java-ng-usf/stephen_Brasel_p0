@@ -1,60 +1,65 @@
 package com.revature.revabank.screens;
 
+import com.revature.revabank.models.Account;
+import com.revature.revabank.models.AccountChecking;
+import com.revature.revabank.models.AccountSavings;
 import com.revature.revabank.models.AppUser;
+import com.revature.revabank.services.AccountService;
 import com.revature.revabank.services.UserService;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import static com.revature.revabank.AppDriver.app;
+
 public class RegisterScreen extends Screen{
 	//region Fields
-	private String name = "RegisterScreen";
-	private String route = "/register";
 	private UserService userService;
+	private AccountService accountService;
 	//endregion
 
 	//region Constructors
 
-	public RegisterScreen(UserService userService) {
+	public RegisterScreen(UserService userService, AccountService accountService) {
+		super("RegisterScreen", "/register");
 //		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
 		this.userService = userService;
+		this.accountService = accountService;
 	}
 
 	//endregion
 
 	//region Overridden Methods
 	@Override
-	public String getRoute() {
-		return null;
-	}
-
-	@Override
 	public void render() {
 
-		BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
-		String accountType;
-		String firstName;
-		String lastName;
-		String userName;
-		String password;
+		String accountType, firstName, lastName, userName, password;
 
 		try{
 			System.out.println("Sign up for a new account!");
 			System.out.print("First name: ");
-			firstName = console.readLine();
+			firstName = app.getConsole().readLine().trim();
 			System.out.print("Last name: ");
-			lastName = console.readLine();
+			lastName = app.getConsole().readLine().trim();
 			System.out.print("Username: ");
-			userName = console.readLine();
+			userName = app.getConsole().readLine().trim();
 			System.out.print("Password: ");
-			password = console.readLine();
-			System.out.print("Account Type: ");
-			accountType = console.readLine();
+			password = app.getConsole().readLine().trim();
+			System.out.print("Account Type: \n"
+							+"1) Checking\n"
+							+"2) Savings\n"
+			);
+			accountType = app.getConsole().readLine().trim();
 
 			AppUser newUser = new AppUser(firstName, lastName, userName, password);
 
-			AppUser registeredUser = userService.register(newUser);
-			System.out.println(registeredUser);
+			userService.register(newUser, accountType);
+
+			if(app.isSessionValid()){
+				accountService.addAccount(accountType);
+				app.getRouter().navigate("/dashboard");
+			}
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -7,16 +7,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import static com.revature.revabank.AppDriver.app;
+
 public class LoginScreen extends Screen {
 	//region Fields
-	private String name = "LoginScreen";
-	private String route = "/login";
 	private UserService userService;
 	//endregion
 
 	//region Constructors
 	public LoginScreen(UserService userService){
-		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
+		super("LoginScreen", "/login");
+//		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
 		this.userService = userService;
 	}
 	//endregion
@@ -24,29 +25,22 @@ public class LoginScreen extends Screen {
 	//region Overridden Methods
 
 	@Override
-	public String getRoute() {
-		return null;
-	}
-
-	@Override
 	public void render() {
-		BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
-		String username;
-		String password;
+		String username, password;
 
 		try{
 			System.out.println("Please provide your login credentials");
 			System.out.print("Username: ");
-			username = console.readLine();
+			username = app.getConsole().readLine().trim();
 			System.out.print("Password: ");
-			password = console.readLine();
+			password = app.getConsole().readLine().trim();
 
 //			System.out.println("You entered: " + username + "/" + password);
-			AppUser authUser = userService.authenticate(username, password);
+			userService.authenticate(username, password);
 
-			System.out.println(authUser);
-
-			console.close();
+			if(app.isSessionValid()){
+				app.getRouter().navigate("/dashboard");
+			}
 		} catch(Exception ioe) {
 			ioe.printStackTrace();
 		}

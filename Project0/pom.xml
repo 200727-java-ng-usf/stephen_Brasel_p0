@@ -22,6 +22,13 @@
     <!--.jar - Java Archive file (compressed file)-->
 
     <dependencies>
+        <!--Persistence Dependencies-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.12</version>
+        </dependency>
+        <!--Testing dependencies-->
         <!-- https://mvnrepository.com/artifact/junit/junit -->
         <dependency>
             <groupId>junit</groupId>

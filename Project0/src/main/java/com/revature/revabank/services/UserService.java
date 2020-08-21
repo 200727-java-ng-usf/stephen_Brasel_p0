@@ -2,15 +2,15 @@ package com.revature.revabank.services;
 
 import com.revature.revabank.exceptions.AuthenticationException;
 import com.revature.revabank.exceptions.InvalidRequestException;
-import com.revature.revabank.models.Account;
-import com.revature.revabank.models.AccountChecking;
-import com.revature.revabank.models.AppUser;
-import com.revature.revabank.models.Role;
+import com.revature.revabank.models.*;
 import com.revature.revabank.repos.UserRepository;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
+
+import static com.revature.revabank.AppDriver.app;
 
 public class UserService {
 	private UserRepository userRepo;
@@ -43,42 +43,38 @@ public class UserService {
 		return null;
 	}
 
-	public AppUser authenticate(String username, String password){
+	public void authenticate(String username, String password){
 		// Validate that the provided username and password are not non-values
 		if(username == null || username.trim().equals("") || password == null || password.trim().equals("")){
-			// TODO implement a custom invalid request exception.
 			throw new InvalidRequestException("Invalid credential values provided");
 		}
-		AppUser authenticatedUser = userRepo.findUserByCredentials(username, password);
+		AppUser authUser = userRepo.findUserByCredentials(username, password)
+				.orElseThrow(AuthenticationException::new);
 
-		if(authenticatedUser == null){
-			// TODO implement a custom AuthenticationException
-			throw new AuthenticationException("No user found with the provided credentials");
-		}
+		app.setCurrentUser(authUser);
 
-		return authenticatedUser;
+//		if(authUser == null){
+//			throw new AuthenticationException("No user found with the provided credentials");
+//		}
+//
+//		return authUser;
 	}
 
-	public AppUser register(AppUser newUser){
+	public void register(AppUser newUser, String accountType){
 		//
 		if(!isUserValid(newUser)){
-			//TODO implement a custom InvalidRequestException
 			throw new InvalidRequestException("Invalid user field values provided during registration!");
 		}
-		if(userRepo.findUserByUsername(newUser.getUserName()) != null){
-			// TODO implement a custom ResourcePersistenceException
+		Optional<AppUser> existingUser = userRepo.findUserByUsername(newUser.getUserName());
+
+		if(existingUser.isPresent()){
 			throw new AuthenticationException("Provided username is already in use!");
 		}
 
 		newUser.setRole(Role.PATRON);
+		userRepo.save(newUser);
 
-		//make a new Account
-		Account newAccount = new AccountChecking();
-		ArrayList<Account> accounts = new ArrayList<>();
-		accounts.add(newAccount);
-		newUser.setAccounts(accounts);
-
-		return userRepo.save(newUser);
+		app.setCurrentUser(newUser);
 	}
 
 	public boolean updateUser(AppUser user){

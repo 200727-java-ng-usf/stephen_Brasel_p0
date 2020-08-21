@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class AppUser {
 	//region Fields
-	private String id;
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String userName;
@@ -17,6 +17,7 @@ public class AppUser {
 	//region Constructors
 	public AppUser(){
 		super();
+		accounts = new ArrayList<>();
 	}
 
 	public AppUser(String firstName, String lastName, String userName, String password) {
@@ -34,7 +35,7 @@ public class AppUser {
 		this(firstName, lastName, userName, password);
 		this.role = role;
 	}
-	public AppUser(String id, String firstName, String lastName, String userName, String password, Role role, ArrayList<Account> accounts) {
+	public AppUser(int id, String firstName, String lastName, String userName, String password, Role role, ArrayList<Account> accounts) {
 		this(firstName, lastName, userName, password, role);
 		this.id = id;
 		this.accounts = accounts;
@@ -46,11 +47,11 @@ public class AppUser {
 	//endregion
 
 	//region Getters and Setters
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -106,8 +107,8 @@ public class AppUser {
 		return accounts;
 	}
 
-	public void setAccounts(ArrayList<Account> accounts) {
-		this.accounts = accounts;
+	public void addAccount(Account account) {
+		this.accounts.add(account);
 	}
 	//endregion
 

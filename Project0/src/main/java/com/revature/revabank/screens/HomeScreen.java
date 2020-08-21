@@ -6,88 +6,51 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import static com.revature.revabank.AppDriver.app;
+
 public class HomeScreen extends Screen{
-	//region Fields
-	private String name = "HomeScreen";
-	private String route = "/home";
-	private UserService userService;
-
-	private final String WELCOME = 		"Welcome to RevaBank! Please select an option:";
-	private final String BARLINE = 		"=============================================\n";
-	private final String SIGN_IN = 		"1. Sign in";
-	private final String REGISTER = 	"2. Register new user";
-	private final String EXIT = 		"3. Exit";
-	//endregion
-
 	//region Constructors
-
-	public HomeScreen(UserService userService) {
+	public HomeScreen() {
+		super("HomeScreen", "/home");
 		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
-		this.userService = userService;
 	}
 
 	//endregion
 
 	//region Overridden Methods
 	@Override
-	public String getRoute() {
-		return null;
-	}
-
-	@Override
 	public void render() {
-		System.out.println(WELCOME);
-		System.out.println(BARLINE);
-		System.out.println(SIGN_IN);
-		System.out.println(REGISTER);
-		System.out.println(EXIT);
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println(	"Welcome to RevaBank! Please select an option:\n" +
+							"=============================================\n" +
+							"1. Login\n" +
+							"2. Register\n" +
+							"3. Exit Application\n" +
+							"> ");
 		String input = "";
 		try {
-			input = br.readLine();
+			input = app.getConsole().readLine().trim();
+			switch (input.toLowerCase()) {
+				case "1": case "login":
+					app.getRouter().navigate("/login");
+					break;
+				case "2": case "register":
+					app.getRouter().navigate("/register");
+					break;
+				case "3": case "exit":
+					app.setAppRunning(false);
+					break;
+				case "hi": case "hello":
+					System.out.println("Well, hello!");
+					break;
+				case "roll tide!":
+					System.out.println("Roll Tide!");
+					break;
+				default:
+					System.out.println("[LOG] - Invalid Selection!");
+					break;
+			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-		}
-		switch (input) {
-			case "1":
-				break;
-			case "2":
-				break;
-			case "3":
-			case "exit":
-				break;
-			case "hi":
-				System.out.println("Well, hello!");
-				break;
-			case "Roll Tide!":
-				System.out.println("Roll Tide!");
-				break;
-			default:
-				break;
-		}
-		// TODO clear screen
-//			clearConsole();
-
-//			System.out.print("\033[H\033[2J");
-//			System.out.flush();
-
-//			try {
-//				Runtime.getRuntime().exec("cls");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-
-//			try {
-//				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-		try {
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 	}

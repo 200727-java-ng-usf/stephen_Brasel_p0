@@ -2,12 +2,13 @@ package com.revature.revabank.repos;
 
 import com.revature.revabank.models.Account;
 
+import java.util.Optional;
 import java.util.Set;
 
 public class AccountRepository implements CrudRepository<Account> {
 
 	@Override
-	public Account save(Account account) {
+	public Optional<Account> save(Account account) {
 		return null;
 	}
 
