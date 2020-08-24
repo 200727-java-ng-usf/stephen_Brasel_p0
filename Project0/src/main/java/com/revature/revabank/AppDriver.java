@@ -12,9 +12,7 @@ public class AppDriver {
 
 	public static void main(String[] args) {
 		while(app.isAppRunning()){
-			System.out.println("Start of while loop");
 			app.getRouter().navigate("/home");
-			System.out.println("End of while loop");
 		}
 //		UserRepository userRepo = new UserRepository();
 //		UserService userService = new UserService(userRepo);
