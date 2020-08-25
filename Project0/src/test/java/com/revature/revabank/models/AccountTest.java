@@ -10,7 +10,7 @@ public class AccountTest {
 
 	@Before
 	public void setUp() throws Exception {
-		sup = new AccountChecking();
+		sup = new Account();
 	}
 
 	@After

@@ -1,27 +1,24 @@
 package com.revature.revabank.models;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
 public class Transaction {
-	private String id;
+	private int id;
 	private LocalDate date;
 	private String description;
-	private double amount;
+	private BigDecimal amount;
 	private Account account;
-	private double balance;
-	private AppUser owner;
-	private AppUser transferee;
+	private BigDecimal balance;
 
-	public Transaction(String id, String description, double amount, Account account, AppUser owner, AppUser transferee) {
+	public Transaction(int id, String description, BigDecimal amount, Account account) {
 		this.id = id;
 		this.date = LocalDate.now();
 		this.description = description;
 		this.amount = amount;
 		this.account = account;
 		this.balance = account.getBalance();
-		this.owner = owner;
-		this.transferee = transferee;
 	}
 
 	@Override
@@ -29,19 +26,17 @@ public class Transaction {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Transaction that = (Transaction) o;
-		return Double.compare(that.amount, amount) == 0 &&
-				Double.compare(that.balance, balance) == 0 &&
-				Objects.equals(id, that.id) &&
+		return id == that.id &&
 				Objects.equals(date, that.date) &&
 				Objects.equals(description, that.description) &&
+				Objects.equals(amount, that.amount) &&
 				Objects.equals(account, that.account) &&
-				Objects.equals(owner, that.owner) &&
-				Objects.equals(transferee, that.transferee);
+				Objects.equals(balance, that.balance);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, date, description, amount, account, balance, owner, transferee);
+		return Objects.hash(id, date, description, amount, account, balance);
 	}
 
 	@Override
@@ -52,8 +47,6 @@ public class Transaction {
 				", account=" + account +
 				", amount=" + amount +
 				", balance=" + balance +
-				", owner=" + owner +
-				", transferee=" + transferee +
 				", description='" + description + '\'' +
 				'}';
 	}

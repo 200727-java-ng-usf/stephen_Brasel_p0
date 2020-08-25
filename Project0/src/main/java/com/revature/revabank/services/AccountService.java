@@ -3,6 +3,7 @@ package com.revature.revabank.services;
 import com.revature.revabank.models.*;
 import com.revature.revabank.repos.AccountRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
@@ -42,36 +43,32 @@ public class AccountService {
 		return null;
 	}
 
-	public double deposit(double amount) {
+	public BigDecimal deposit(BigDecimal amount) {
 		//edge cases
-		if (amount < 0) {
+		if (amount.compareTo(BigDecimal.ZERO) < 0) {
 			//TODO throw new custom exception
 			throw new RuntimeException("Negative deposits are not allowed.");
 		}
-		if (amount + app.getCurrentAccount().getBalance() == Double.POSITIVE_INFINITY) { //
-			//TODO throw new custom exception
-			throw new RuntimeException("Infinite Money. You've crashed all economies.");
-		}
-		app.getCurrentAccount().setBalance(app.getCurrentAccount().getBalance() + amount);
+//		if (amount + app.getCurrentAccount().getBalance() == BigDecimal.) { //
+//			//TODO throw new custom exception
+//			throw new RuntimeException("Infinite Money. You've crashed all economies.");
+//		}
+		app.getCurrentAccount().setBalance(app.getCurrentAccount().getBalance().add(amount));
 
 		//TODO Get Transaction Description
 		String description = "";
-		String id = Integer.toString(
-				(LocalDate.now().toString() +
+		int id = (LocalDate.now().toString() +
 						description +
 						amount +
 						app.getCurrentAccount().toString() +
 						app.getCurrentAccount().getBalance() +
 						app.getCurrentAccount().getOwner().toString() +
 						""
-				)
-						.hashCode());
+				).hashCode();
 		Transaction t = new Transaction(id,
 				description,
 				amount,
-				app.getCurrentAccount(),
-				app.getCurrentAccount().getOwner(),
-				null
+				app.getCurrentAccount()
 		);
 		return app.getCurrentAccount().getBalance();
 	}
@@ -82,17 +79,17 @@ public class AccountService {
 	 * @param amount The amount to withdraw
 	 * @return amount
 	 */
-	public double withdraw(double amount) {
+	public BigDecimal withdraw(BigDecimal amount) {
 		//edge cases
-		if (amount < 0) {
+		if (amount.compareTo(BigDecimal.ZERO) < 0) {
 			//TODO throw new custom exception
 			throw new RuntimeException("Negative withdrawals are not allowed.");
 		}
-		if (Double.compare((app.getCurrentAccount().getBalance() - amount), 0) < 0) { //
+		if (app.getCurrentAccount().getBalance().subtract(amount).compareTo(BigDecimal.ZERO) < 0) {
 			//TODO throw new custom exception
 			throw new RuntimeException("Withdrawal failed: lack of funds.");
 		}
-		app.getCurrentAccount().setBalance(app.getCurrentAccount().getBalance() - amount);
+		app.getCurrentAccount().setBalance(app.getCurrentAccount().getBalance().subtract(amount));
 		return amount;
 	}
 
@@ -100,10 +97,12 @@ public class AccountService {
 		Account acc = null;
 		switch (accountType.toLowerCase()){
 			case "1": case "saving": case "savings": default:
-				acc = new AccountChecking();
+				// TODO make acc Checking
+				acc = new Account(AccountType.SAVING);
 				break;
 			case "2": case "checking": case "checkings":
-				acc = new AccountSavings();
+				// TODO make acc Saving
+				acc = new Account(AccountType.CHECKING);
 				break;
 		}
 		app.getCurrentUser().addAccount(acc);

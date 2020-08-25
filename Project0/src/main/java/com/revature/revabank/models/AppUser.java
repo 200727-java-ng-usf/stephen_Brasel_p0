@@ -10,6 +10,7 @@ public class AppUser {
 	private String lastName;
 	private String userName;
 	private transient String password;
+	private String email;
 	private Role role;
 	private ArrayList<Account> accounts;
 	//endregion
@@ -20,29 +21,30 @@ public class AppUser {
 		accounts = new ArrayList<>();
 	}
 
-	public AppUser(String firstName, String lastName, String userName, String password) {
+	public AppUser(String firstName, String lastName, String userName, String password, String email) {
 		this();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.userName = userName;
 		this.password = password;
+		this.email = email;
 	}
-	public AppUser(String firstName, String lastName, String userName, String password, ArrayList<Account> accounts) {
-		this(firstName, lastName, userName, password);
+	public AppUser(String firstName, String lastName, String userName, String password, String email, ArrayList<Account> accounts) {
+		this(firstName, lastName, userName, password, email);
 		this.role = Role.PATRON;
 	}
-	public AppUser(String firstName, String lastName, String userName, String password, Role role) {
-		this(firstName, lastName, userName, password);
+	public AppUser(String firstName, String lastName, String userName, String password, String email, Role role) {
+		this(firstName, lastName, userName, password, email);
 		this.role = role;
 	}
-	public AppUser(int id, String firstName, String lastName, String userName, String password, Role role, ArrayList<Account> accounts) {
-		this(firstName, lastName, userName, password, role);
+	public AppUser(int id, String firstName, String lastName, String userName, String password, String email, Role role, ArrayList<Account> accounts) {
+		this(firstName, lastName, userName, password, email, role);
 		this.id = id;
 		this.accounts = accounts;
 	}
 
 	public AppUser(AppUser user){
-		this(user.id, user.firstName, user.lastName, user.userName, user.password, user.role, user.accounts);
+		this(user.id, user.firstName, user.lastName, user.userName, user.password, user.email, user.role, user.accounts);
 	}
 	//endregion
 
@@ -95,6 +97,14 @@ public class AppUser {
 		this.password = password;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public Role getRole() {
 		return role;
 	}
@@ -127,13 +137,14 @@ public class AppUser {
 				Objects.equals(lastName, appUser.lastName) &&
 				Objects.equals(userName, appUser.userName) &&
 				Objects.equals(password, appUser.password) &&
+				Objects.equals(email, appUser.email) &&
 				role == appUser.role &&
 				Objects.equals(accounts, appUser.accounts);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, firstName, lastName, userName, password, role, accounts);
+		return Objects.hash(id, firstName, lastName, userName, password, email, role, accounts);
 	}
 
 	@Override
@@ -143,7 +154,7 @@ public class AppUser {
 				", firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
 				", userName='" + userName + '\'' +
-				", password='" + password + '\'' +
+				", email='" + email + '\'' +
 				", role=" + role +
 				", accounts=" + accounts +
 				'}';
