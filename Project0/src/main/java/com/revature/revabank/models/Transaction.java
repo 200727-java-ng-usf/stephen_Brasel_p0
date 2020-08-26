@@ -1,6 +1,5 @@
 package com.revature.revabank.models;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -8,11 +7,11 @@ public class Transaction {
 	private int id;
 	private LocalDate date;
 	private String description;
-	private BigDecimal amount;
+	private Double amount;
 	private Account account;
-	private BigDecimal balance;
+	private Double balance;
 
-	public Transaction(int id, String description, BigDecimal amount, Account account) {
+	public Transaction(int id, String description, Double amount, Account account) {
 		this.id = id;
 		this.date = LocalDate.now();
 		this.description = description;

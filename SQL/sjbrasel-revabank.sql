@@ -191,3 +191,15 @@ where id = 1;
 delete
 from accounts 
 where id = 7;
+
+delete 
+from app_users 
+where username = 'sbrasel';
+
+delete 
+from account_users 
+where account_user_id = 6;
+
+delete
+from app_users 
+where username like '%test%';

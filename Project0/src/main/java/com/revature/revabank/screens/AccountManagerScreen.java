@@ -5,11 +5,6 @@ import com.revature.revabank.repos.AccountRepository;
 import com.revature.revabank.services.AccountService;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.NumberFormat;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Set;
 
 import static com.revature.revabank.AppDriver.app;
 
@@ -49,6 +44,7 @@ public class AccountManagerScreen extends Screen{
 					app.getRouter().navigate("/newAccount");
 				} else if (Integer.parseInt(prompt) < i && Integer.parseInt(prompt) > 0){
 					app.setCurrentAccount((Account) app.getCurrentUser().getAccounts().toArray()[Integer.parseInt(prompt)-2]);
+					app.getRouter().navigate("/account");
 				}
 			} catch(NumberFormatException nfe){
 				System.out.println("Please enter the number associated with your account.");

@@ -7,7 +7,6 @@ import com.revature.revabank.models.Role;
 import com.revature.revabank.services.UserService;
 import com.revature.revabank.util.ConnectionFactory;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,7 +47,7 @@ public class AccountRepository implements CrudRepository<Account> {
 			temp.setOwners(
 					userRepository.findUsersByAccountId(rs.getInt("account_user_id")));
 			temp.setName(rs.getString("account_name"));
-			temp.setBalance(rs.getBigDecimal("balance"));
+			temp.setBalance(rs.getDouble("balance"));
 			//TODO Transactions
 //			temp.setHistory(rs.getString("last_name"));
 			temp.setType(AccountType.getByName(rs.getString("account_type")));
@@ -121,7 +120,7 @@ public class AccountRepository implements CrudRepository<Account> {
 			// second parameter here is used to indicate column names that will have generated values
 			PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"id"});
 			pstmt.setString(		1,	account.getName());
-			pstmt.setBigDecimal(	2,	account.getBalance());
+			pstmt.setDouble(		2,	account.getBalance());
 			pstmt.setInt(			3,	AccountType.getOrdinal(account.getType()));
 
 			int rowsInserted = pstmt.executeUpdate();
@@ -167,31 +166,31 @@ public class AccountRepository implements CrudRepository<Account> {
 		return false;
 	}
 
-	public boolean update(BigDecimal amount){
+	public boolean update(Double amount){
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
 
 			String sql =
 					"UPDATE revabank.accounts " +
-							"SET balance = balance - cast(" +
+							"SET balance = balance + cast(" +
 							"?" +
 							" as money) " +
 							"WHERE id = ?"
 					;
 			// second parameter here is used to indicate column names that will have generated values
 			PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"id"});
-			pstmt.setBigDecimal(	1,	amount);
+			pstmt.setDouble(	1,	amount);
 			pstmt.setInt(			2,	app.getCurrentAccount().getId());
 
 			int rowsInserted = pstmt.executeUpdate();
 
 			if(rowsInserted != 0){
-				return false;
+				return true;
 			}
 
 		} catch(SQLException sqle){
 			sqle.printStackTrace();
 		}
-		return true;
+		return false;
 
 	}
 	@Override

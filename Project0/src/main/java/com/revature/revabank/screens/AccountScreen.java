@@ -2,7 +2,6 @@ package com.revature.revabank.screens;
 
 import com.revature.revabank.services.AccountService;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -19,7 +18,7 @@ public class AccountScreen extends Screen{
 			"View Balance"
 			,"Withdraw"
 			,"Deposit"
-			,"Return to Dashboard"
+			,"Return to Account Manager"
 	};
 	private AccountService accountService;
 
@@ -34,6 +33,7 @@ public class AccountScreen extends Screen{
 	public void render(){
 		NumberFormat us   = NumberFormat.getCurrencyInstance(Locale.US);
 		String prompt;
+		isScreenValid = true;
 		while(isScreenValid){
 			System.out.println("Please choose an option:");
 			for (int i = 1; i <= options.length; i++) {
@@ -42,22 +42,25 @@ public class AccountScreen extends Screen{
 			try{
 				System.out.print("> ");
 				prompt = app.getConsole().readLine().trim();
+				Double actual;
 
 				switch (prompt){
 					case "1":
-						System.out.println(app.getCurrentAccount().getBalance());
+						System.out.println("$" + app.getCurrentAccount().getBalance());
 						break;
 					case "2":
 						System.out.println("How much would you like to withdraw? ");
 						System.out.print("> ");
 						prompt = app.getConsole().readLine().trim();
-						accountService.withdraw(BigDecimal.valueOf(Double.parseDouble(prompt)));
+						actual = accountService.withdraw(Double.parseDouble(prompt));
+						System.out.println("Amount Withdrawn: " + actual);
 						break;
 					case "3":
 						System.out.println("How much would you like to deposit? ");
 						System.out.print("> ");
 						prompt = app.getConsole().readLine().trim();
-						accountService.deposit(BigDecimal.valueOf(Double.parseDouble(prompt)));
+						actual = accountService.deposit(Double.parseDouble(prompt));
+						System.out.println("Amount Deposited: " + actual);
 						break;
 					case "4":
 						isScreenValid = false;

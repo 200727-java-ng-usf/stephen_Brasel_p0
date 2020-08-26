@@ -1,12 +1,11 @@
 package com.revature.revabank.models;
 
 import java.util.*;
-import java.math.BigDecimal;
 
 public class Account {
 	//region Fields
 	private int id;
-	private BigDecimal balance = BigDecimal.ZERO;
+	private Double balance = 0D;
 	private AccountType type = AccountType.CHECKING;
 	private String name = type.toString();
 	private Set<AppUser> owners;
@@ -21,7 +20,7 @@ public class Account {
 		history = new ArrayList<>();
 	}
 
-	public Account(int id, Set<AppUser> owners, String name, BigDecimal balance, ArrayList<Transaction> history, AccountType type) {
+	public Account(int id, Set<AppUser> owners, String name, Double balance, ArrayList<Transaction> history, AccountType type) {
 		this.id = id;
 		this.owners = owners;
 		this.name = name;
@@ -62,11 +61,11 @@ public class Account {
 		this.name = name;
 	}
 
-	public BigDecimal getBalance() {
+	public Double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(BigDecimal balance) {
+	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
 
@@ -111,7 +110,7 @@ public class Account {
 				"id='" + id + '\'' +
 //				", owners=" + Arrays.toString(owners.stream().map(elem -> elem.toString(false)).toArray()) +
 				", name='" + name + '\'' +
-				", balance=" + balance +
+				", balance=$" + balance +
 				", history=" + history +
 				", type=" + type +
 				'}';

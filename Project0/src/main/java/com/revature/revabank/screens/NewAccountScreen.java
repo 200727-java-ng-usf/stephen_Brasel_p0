@@ -19,8 +19,8 @@ public class NewAccountScreen extends Screen {
 			System.out.println("New User Account");
 			System.out.println("+-----------------------------+");
 			System.out.print("Account Type: \n"
-					+ "1) Checking\n"
-					+ "2) Savings\n"
+					+ "1) Savings\n"
+					+ "2) Checking\n"
 			);
 			accountType = app.getConsole().readLine().trim();
 			System.out.println("Starting balance: ");
