@@ -48,11 +48,11 @@ public class AccountManagerScreen extends Screen{
 				}
 			} catch(NumberFormatException nfe){
 				System.out.println("Please enter the number associated with your account.");
-				nfe.printStackTrace();
+//				nfe.printStackTrace();
 			}
 			catch(IOException ioe) {
 				System.out.println("Please choose an option");
-			    ioe.printStackTrace();
+//			    ioe.printStackTrace();
 			}
 		}
 

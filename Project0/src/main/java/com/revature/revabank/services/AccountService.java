@@ -31,18 +31,38 @@ public class AccountService {
 	//endregion
 
 	//region Methods
+
+	/**
+	 *	Returns all <code>{@link Account}</code>s in the bank. Adminstrator roles only.
+	 * @return all <code>{@link Account}</code>s in the bank.
+	 */
 	public Set<Account> getAllAccounts() {
 		return null;
 	}
 
+	/**
+	 * Returns all <code>{@link Account}</code>s that have custody or joint custody with a given <code>{@link AppUser}</code> user.
+	 * @param user the <code>{@link AppUser}</code> to search by.
+	 * @return all <code>{@link Account}</code>s associated with a given <code>{@link AppUser}</code>.
+	 */
 	public Set<Account> getAccountsByUser(AppUser user) {
 		return accountRepo.findAccountsByUserId(user.getId());
 	}
 
+	/**
+	 * Returns an <code>{@link Account}</code> associated with a given id.
+	 * @param id the id of the <code>{@link Account}</code> to search by.
+	 * @return the first <code>{@link Account}</code> associated with the given id.
+	 */
 	public Optional<Account> getAccountById(int id) {
 		return accountRepo.findAccountsByUserId(id).stream().findFirst();
 	}
 
+	/**
+	 * Returns the first <code>{@link Account}</code> associated with a given name.
+	 * @param name the name of the account.
+	 * @return the first <code>{@link Account}</code> associated with a given name.
+	 */
 	public Account getAccountByAccountName(String name) {
 		return null;
 	}
@@ -107,7 +127,7 @@ public class AccountService {
 	}
 
 	public void addAccount(String balance, String accountType, String accountName){
-		Double bal = Double.valueOf(Double.parseDouble(balance));
+		Double bal = Double.parseDouble(balance);
 		if(bal.compareTo(startingValueMinimum) < 0){
 			//TODO throw new custom exception
 			throw new TransactionException("Balance too small to start an account");

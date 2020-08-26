@@ -54,7 +54,8 @@ public class RegisterScreen extends Screen{
 			}
 
 		} catch(Exception e) {
-			e.printStackTrace();
+			System.out.println("An exception occurred. Please try again.");
+//			e.printStackTrace();
 		}
 
 	}

@@ -30,7 +30,7 @@ public class NewAccountScreen extends Screen {
 			accountService.addAccount(balance, accountType, accountName);
 		}catch(Exception e){
 			System.out.println("Could not parse user input, please try again.");
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 	}
 }

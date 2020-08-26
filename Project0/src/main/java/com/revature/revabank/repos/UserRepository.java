@@ -50,7 +50,8 @@ public class UserRepository implements CrudRepository<AppUser>{
 
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed while searching for users.");
+//			sqle.printStackTrace();
 		}
 
 		return _user;
@@ -72,7 +73,8 @@ public class UserRepository implements CrudRepository<AppUser>{
 			_user = mapResultSet(rs).stream().findFirst();
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed while searching for user.");
+//			sqle.printStackTrace();
 		}
 
 		return _user;
@@ -96,7 +98,8 @@ public class UserRepository implements CrudRepository<AppUser>{
 			_user = mapResultSet(rs).stream().findFirst();
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed while searching for user with those credentials.");
+//			sqle.printStackTrace();
 		}
 
 
@@ -169,7 +172,8 @@ public class UserRepository implements CrudRepository<AppUser>{
 			}
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed to save User.");
+//			sqle.printStackTrace();
 		}
 	}
 
@@ -187,7 +191,8 @@ public class UserRepository implements CrudRepository<AppUser>{
 			_user = mapResultSet(rs);
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed while searching for users.");
+//			sqle.printStackTrace();
 		}
 
 		return _user;
@@ -209,7 +214,8 @@ public class UserRepository implements CrudRepository<AppUser>{
 			_user = mapResultSet(rs).stream().findFirst();
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed while searching for user with given id.");
+//			sqle.printStackTrace();
 		}
 
 		return _user;
@@ -236,7 +242,8 @@ public class UserRepository implements CrudRepository<AppUser>{
 			_user = mapResultSet(rs).stream().findFirst();
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed to delete user with given id.");
+//			sqle.printStackTrace();
 			return false;
 		}
 
@@ -264,7 +271,8 @@ public class UserRepository implements CrudRepository<AppUser>{
 
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed while searching for users with given id.");
+//			sqle.printStackTrace();
 		}
 
 		return _user;

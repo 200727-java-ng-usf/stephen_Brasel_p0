@@ -46,7 +46,7 @@ public class AccountScreen extends Screen{
 
 				switch (prompt){
 					case "1":
-						System.out.println("$" + app.getCurrentAccount().getBalance());
+						System.out.println(app.getCurrentAccount().getFormattedBalance());
 						break;
 					case "2":
 						System.out.println("How much would you like to withdraw? ");
@@ -70,7 +70,8 @@ public class AccountScreen extends Screen{
 						break;
 				}
 			} catch(Exception e) {
-			    e.printStackTrace();
+				System.out.println("An exception occurred. Please try again.");
+//			    e.printStackTrace();
 			}
 		}
 

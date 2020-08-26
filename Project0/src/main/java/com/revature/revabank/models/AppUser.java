@@ -128,6 +128,25 @@ public class AppUser {
 	//endregion
 
 	//region Methods
+
+	/**
+	 * provides the .toString of this AppUser if accounts is set to True,
+	 * otherwise provides all of the information in .toString except for the
+	 * accounts.
+	 * @param accounts
+	 * @return
+	 */
+	public String toString(boolean accounts) {
+		if(accounts) return toString();
+		return "AppUser{" +
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", userName='" + userName + '\'' +
+				", email='" + email + '\'' +
+				", role=" + role +
+				'}';
+	}
 	//endregion
 
 	//region OverRidden Methods
@@ -162,18 +181,6 @@ public class AppUser {
 				", email='" + email + '\'' +
 				", role=" + role +
 				", accounts=" + accounts +
-				'}';
-	}
-
-	public String toString(boolean accounts) {
-		if(accounts) return toString();
-		return "AppUser{" +
-				"id=" + id +
-				", firstName='" + firstName + '\'' +
-				", lastName='" + lastName + '\'' +
-				", userName='" + userName + '\'' +
-				", email='" + email + '\'' +
-				", role=" + role +
 				'}';
 	}
 

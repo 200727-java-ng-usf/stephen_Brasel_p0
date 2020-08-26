@@ -42,7 +42,8 @@ public class LoginScreen extends Screen {
 				app.getRouter().navigate("/dashboard");
 			}
 		} catch(Exception ioe) {
-			ioe.printStackTrace();
+			System.out.println("An exception occurred. Please try again.");
+//			ioe.printStackTrace();
 		}
 
 		System.out.println();

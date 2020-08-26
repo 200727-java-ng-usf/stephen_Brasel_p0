@@ -6,21 +6,21 @@ drop table if exists transferals;
 drop table if exists account_types;
 drop table if exists user_roles;
 
-create table user_roles(
+create table user_roles( --ur
 	id						serial,
 	role_name 				varchar(25) not null,
 	constraint user_roles_pk
 		primary key (id)
 );
 
-create table account_types(
+create table account_types( --at
 	id						serial,
 	account_type 			varchar(25) not null,
 	constraint account_type_pk
 		primary key (id)
 );
 
-create table transferals(
+create table transferals( --trf
 	id						serial,
 	user_account_id			int not null,
 	transaction_id 			int not null,
@@ -29,7 +29,7 @@ create table transferals(
 		primary key (id)
 );
 
-create table app_users(
+create table app_users( --apu
 	id						serial,
 	first_name				varchar(25) not null,
 	last_name				varchar(25) not null,
@@ -46,10 +46,10 @@ create table app_users(
 		on update no action
 );
 
-create table accounts(
+create table accounts( --a
 	id 						serial,
 	account_name			varchar(25),
-	balance					money,
+	balance					float,
 	account_type			int not null,
 	constraint account_pk 
 		primary key (id),
@@ -60,13 +60,13 @@ create table accounts(
 		on update cascade
 );
 
-create table transactions(
+create table transactions( --trn
 	id						serial,
 	transaction_date		date default current_date,
 	description 			text,
-	amount					money,
+	amount					float,
 	account_id				int not null,
-	balance					money,
+	balance					float,
 	constraint transaction_pk
 		primary key (id),
 	constraint transaction_account_id_fk
@@ -78,7 +78,7 @@ create table transactions(
 -- TODO 
 -- Make function that gets called on delete to check if account_user is the last
 -- 		user of a specific account, if so, cascade deletion.
-create table account_users(
+create table account_users( --acu
 	id 						serial,
 	account_id				int not null,
 	account_user_id 		int not null,
@@ -110,7 +110,7 @@ returns trigger
 as $$
 	
 	begin
-		if(new.balance < cast(0 as money)) then 
+		if(new.balance < 0) then 
 			return null; -- cancels the execution of the original statement
 		end if;
 	return new; -- return to the trigger without halting the original statement
@@ -123,6 +123,35 @@ before insert or update on accounts
 for each row 
 execute function no_overdrafting();
 
+-- +-------------------------------------------------------------+
+-- +                    	  TEST DATA
+-- +-------------------------------------------------------------+
+
+insert into app_users (first_name, last_name , username , user_password ,email , role_id )
+values
+	('Alice', 'Anderson', 'aanderson', 'password', 'aanderson@revature.net', 1),
+	('Benjamin', 'Barker', 'bbarker', 'password', 'bbarker@revature.net', 1),
+	('Charlie', 'Courtson', 'ccourtson', 'password', 'ccourtson@revature.net', 1),
+	('Debra', 'Delion', 'ddelion', 'password', 'ddelion@revature.net', 1),
+	('Edward', 'Eliotson', 'eeliotson', 'password', 'eeliotson@revature.net', 1);
+insert into accounts (account_name , balance , account_type )
+values
+	('Saving', 100, 1),
+	('Saving', 110, 1),
+	('Saving', 120, 1),
+	('Saving', 130, 1),
+	('Saving', 130, 1),
+	('Checking', 140, 2)
+;
+insert into account_users (account_id, account_user_id)
+values 
+	(1, 1),
+	(2, 2),
+	(3, 3),
+	(4, 4),
+	(5, 5),
+	(6, 1),
+	(1, 2);
 
 -- +-------------------------------------------------------------+
 -- +                    	  TESTING
@@ -158,34 +187,8 @@ on a.id = au.id
 where au.account_user_id = 1;
 
 
-insert into app_users (first_name, last_name , username , user_password ,email , role_id )
-values
-	('Alice', 'Anderrson', 'aanderson', 'password', 'aanderson@revature.net', 1),
-	('Benjamin', 'Barker', 'bbarker', 'password', 'bbarker@revature.net', 1),
-	('Charlie', 'Courtson', 'ccourtson', 'password', 'ccourtson@revature.net', 1),
-	('Debra', 'Delion', 'ddelion', 'password', 'ddelion@revature.net', 1),
-	('Edward', 'Eliotson', 'eeliotson', 'password', 'eeliotson@revature.net', 1);
-insert into accounts (account_name , balance , account_type )
-values
-	('Checking', 100, 1),
-	('Checking', 110, 1),
-	('Checking', 120, 1),
-	('Checking', 130, 1),
-	('Checking', 130, 1),
-	('Saving', 140, 2)
-;
-insert into account_users (account_id, account_user_id)
-values 
-	(1, 1),
-	(2, 2),
-	(3, 3),
-	(4, 4),
-	(5, 5),
-	(6, 1),
-	(1, 2);
-
 update accounts
-set balance = balance - cast(200 as money)
+set balance = balance - 200
 where id = 1;
 
 delete
@@ -203,3 +206,5 @@ where account_user_id = 6;
 delete
 from app_users 
 where username like '%test%';
+
+commit;

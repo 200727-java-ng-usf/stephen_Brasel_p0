@@ -63,10 +63,15 @@ public class AccountRepository implements CrudRepository<Account> {
 
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
 
-			String sql = "SELECT * FROM revabank.accounts a " +
-					"JOIN revabank.account_users au " +
-					"ON a.id = au.id " +
-					"WHERE au.account_user_id = ? ";
+			String sql = "SELECT a.id, a.account_name, a.balance, " +
+					"acu.account_id, acu.account_user_id, " +
+					"at.account_type " +
+					"FROM revabank.accounts a " +
+					"JOIN revabank.account_users acu " +
+					"ON a.id = acu.account_id " +
+					"JOIN revabank.account_types at " +
+					"ON a.account_type = at.id " +
+					"WHERE acu.account_user_id = ? ";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, id);
 
@@ -98,7 +103,8 @@ public class AccountRepository implements CrudRepository<Account> {
 				return true;
 			}
 		}catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed to save account user information.");
+//			sqle.printStackTrace();
 		}
 		return false;
 	}
@@ -134,7 +140,8 @@ public class AccountRepository implements CrudRepository<Account> {
 			}
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed to save account.");
+//			sqle.printStackTrace();
 		}
 	}
 
@@ -150,7 +157,8 @@ public class AccountRepository implements CrudRepository<Account> {
 			_accounts = mapResultSet(rs);
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed to find accounts.");
+//			sqle.printStackTrace();
 		}
 
 		return _accounts;
@@ -171,9 +179,7 @@ public class AccountRepository implements CrudRepository<Account> {
 
 			String sql =
 					"UPDATE revabank.accounts " +
-							"SET balance = balance + cast(" +
-							"?" +
-							" as money) " +
+							"SET balance = balance + ? " +
 							"WHERE id = ?"
 					;
 			// second parameter here is used to indicate column names that will have generated values
@@ -188,7 +194,8 @@ public class AccountRepository implements CrudRepository<Account> {
 			}
 
 		} catch(SQLException sqle){
-			sqle.printStackTrace();
+			System.out.println("Failed to update account.");
+//			sqle.printStackTrace();
 		}
 		return false;
 

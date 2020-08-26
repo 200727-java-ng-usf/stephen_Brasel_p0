@@ -49,7 +49,8 @@ public class DashboardScreen extends Screen{
 						break;
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("An exception occurred. Please try again.");
+//				e.printStackTrace();
 			}
 		}
 	}

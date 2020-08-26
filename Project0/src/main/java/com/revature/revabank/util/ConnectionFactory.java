@@ -15,7 +15,8 @@ public class ConnectionFactory {
 		try {
 			props.load(new FileReader("./src/main/resources/application.properties"));
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Failed to load application properties. ");
+//			e.printStackTrace();
 		}
 	}
 
@@ -38,7 +39,8 @@ public class ConnectionFactory {
 					props.getProperty("password")
 			);
 		} catch(ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			System.out.println("A connection could not be established.");
+//			e.printStackTrace();
 		}
 		if(conn == null){
 			throw new RuntimeException("Failed to establish connection");
