@@ -105,6 +105,7 @@ public class UserService {
 		if(user.getLastName() == null || user.getLastName().trim().equals("")) return false;
 		if(user.getUserName() == null || user.getUserName().trim().equals("")) return false;
 		if(user.getPassword() == null || user.getPassword().trim().equals("")) return false;
+		if(user.getEmail() == null || user.getEmail().trim().equals("")) return false;
 
 		return true;
 	}
