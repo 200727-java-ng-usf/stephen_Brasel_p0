@@ -17,7 +17,7 @@ public class UserService {
 
 	//region Constructors
 	public UserService(UserRepository repo){
-		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
+//		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
 		userRepo = repo;
 	}
 	//endregion

@@ -66,7 +66,7 @@ public class AccountScreen extends Screen{
 						isScreenValid = false;
 						break;
 					default:
-						System.out.println("[LOG] - Invalid Selection!");
+//						System.out.println("[LOG] - Invalid Selection!");
 						break;
 				}
 			} catch(Exception e) {

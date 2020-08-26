@@ -12,7 +12,7 @@ public class HomeScreen extends Screen{
 	//region Constructors
 	public HomeScreen() {
 		super("HomeScreen", "/home");
-		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
+//		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
 	}
 
 	//endregion
@@ -58,7 +58,7 @@ public class HomeScreen extends Screen{
 					break;
 					//endregion
 				default:
-					System.out.println("[LOG] - Invalid Selection!");
+//					System.out.println("[LOG] - Invalid Selection!");
 					break;
 			}
 		} catch (IOException ioe) {

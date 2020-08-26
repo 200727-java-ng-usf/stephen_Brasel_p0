@@ -6,7 +6,7 @@ public abstract class Screen {
 	protected boolean isScreenValid = true;
 
 	public Screen(String name, String route){
-		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
+//		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
 		this.name = name;
 		this.route = route;
 	}

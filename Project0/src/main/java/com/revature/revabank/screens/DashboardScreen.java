@@ -45,7 +45,7 @@ public class DashboardScreen extends Screen{
 						app.invalidateCurrentSession();
 						break;
 					default:
-						System.out.println("[LOG] - Invalid Selection!");
+//						System.out.println("[LOG] - Invalid Selection!");
 						break;
 				}
 			} catch (IOException e) {

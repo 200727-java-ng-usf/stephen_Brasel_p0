@@ -32,7 +32,7 @@ public class AccountRepository implements CrudRepository<Account> {
 	private UserRepository userRepository;
 	//endregion
 	public AccountRepository(UserRepository userRepository) {
-		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
+//		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
 		this.userRepository = userRepository;
 	}
 

@@ -22,7 +22,7 @@ public class AppState {
 	private static boolean debug = true;
 
 	public AppState(){
-		System.out.println("[LOG] - Initializing Application...");
+//		System.out.println("[LOG] - Initializing Application...");
 
 		appRunning = true;
 		console = new BufferedReader(new InputStreamReader(System.in));
@@ -46,7 +46,7 @@ public class AppState {
 				.addScreen(new RegisterScreen(userService, accountService))
 		;
 
-		System.out.println("[LOG] - Application Initialization complete.");
+//		System.out.println("[LOG] - Application Initialization complete.");
 	}
 
 	public BufferedReader getConsole() {

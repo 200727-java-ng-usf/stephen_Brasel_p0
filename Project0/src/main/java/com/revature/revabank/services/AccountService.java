@@ -24,7 +24,7 @@ public class AccountService {
 	//region Constructors
 
 	public AccountService(AccountRepository accountRepo) {
-		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
+//		System.out.println("[LOG] - Instantiating " + this.getClass().getName());
 		this.accountRepo = accountRepo;
 	}
 
