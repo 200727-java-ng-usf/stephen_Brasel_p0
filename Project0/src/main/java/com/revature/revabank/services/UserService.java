@@ -23,26 +23,59 @@ public class UserService {
 	//endregion
 
 	//region Methods
+
+	/**
+	 * Returns all users registered with the bank database.
+	 * @return a Set of <code>{@link AppUser}</code>s that have been registered and saved to the bank database
+	 */
 	public Set<AppUser> getAllUser(){
 		return null;
 	}
 
+	/**
+	 * Returns all <code>{@link AppUser}</code>s who have the given <code>{@link Role}</code>.
+	 * @param role the <code>{@link Role}</code> to search by.
+	 * @return a Set of <code>{@link AppUser}</code>s that all have the given <code>{@link Role}</code>
+	 */
 	public Set<AppUser> getUsersByRole(Role role){
 		return null;
 	}
 
+	/**
+	 * Returns all <code>{@link AppUser}</code>s who have the given id.
+	 * @param id the int id to search by.
+	 * @return a Set of <code>{@link AppUser}</code>s that all have the given id. This should never be more than 1 user.
+	 */
 	public Set<AppUser> getUsersById(int id){
 		return null;
 	}
 
+	/**
+	 * Returns the first <code>{@link AppUser}</code> found with the given id.
+	 * @param id the int id to search by
+	 * @return the first <code>{@link AppUser}</code> found with the given id.
+	 */
 	public AppUser getUserById(int id){
 		return null;
 	}
 
+	/**
+	 * Returns the first <code>{@link AppUser}</code> found with the given username.
+	 * @param username the String username to search by.
+	 * @return the first <code>{@link AppUser}</code> found with the given username.
+	 */
 	public AppUser getUserByUsername(String username){
 		return null;
 	}
 
+	/**
+	 * This method authenticates a <code>{@link AppUser}</code>  that already exists within the database.
+	 * with the given username and password with the database. If a user already exists with the username
+	 * and password or a user does not exist with the username and password or either username or password
+	 * are either null or empty, then the method will not authenticate.
+	 * @param username the String username to authenticate.
+	 * @param password the String password to authenticate.
+	 */
 	public void authenticate(String username, String password){
 		// Validate that the provided username and password are not non-values
 		if(username == null || username.trim().equals("")
@@ -61,6 +94,10 @@ public class UserService {
 //		return authUser;
 	}
 
+	/**
+	 * This method registers a new <code>{@link AppUser}</code> into the database.
+	 * @param newUser the <code>{@link AppUser}</code> to store/register in the database.
+	 */
 	public void register(AppUser newUser){
 		//
 		if(!isUserValid(newUser)){
@@ -78,25 +115,45 @@ public class UserService {
 		app.setCurrentUser(newUser);
 	}
 
+	/**
+	 * This method updates the records of a <code>{@link AppUser}</code>
+	 * that exists on the database with the local record.
+	 * @param user the <code>{@link AppUser}</code> to update.
+	 * @return returns true if the update was successful, false otherwise.
+	 */
 	public boolean updateUser(AppUser user){
 		return false;
 	}
 
+	/**
+	 * This method deletes a <code>{@link AppUser}</code> with the given id from
+	 * the the database, along with any records only pertinent to them.
+	 * @param id the id of the <code>{@link AppUser}</code>.
+	 * @return returns true if the deletion was successful, false if otherwise.
+	 * 		If there was no such user, returns true.
+	 */
 	public boolean deleteUserById(int id){
 		return false;
 	}
 
+	/**
+	 * Validates that the given <code>{@link AppUser}</code> and its fields are
+	 * valid (not null or empty strings). Does not perform validation on id or Role fields.
+	 *
+	 * @param user the <code>{@link AppUser}</code> to validate.
+	 * @return true if the <code>{@link AppUser}</code> is valid.
+	 */
 	public boolean validateUserFields(AppUser user){
-		return false;
+		return isUserValid(user);
 	}
 
 
 	/**
-	 * Validates that the given user and its fields are valid (not null or empty strings). Does not
-	 * perform validation on id or Role fields.
+	 * Validates that the given <code>{@link AppUser}</code> and its fields are
+	 * valid (not null or empty strings). Does not perform validation on id or Role fields.
 	 *
-	 * @param user
-	 * @return true if the user is valid.
+	 * @param user the <code>{@link AppUser}</code> to validate.
+	 * @return true if the <code>{@link AppUser}</code> is valid.
 	 */
 	public boolean isUserValid(AppUser user){
 

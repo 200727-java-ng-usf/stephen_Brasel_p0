@@ -7,6 +7,19 @@ import com.revature.revabank.screens.RegisterScreen;
 import com.revature.revabank.services.UserService;
 import com.revature.revabank.util.AppState;
 
+/**
+ * The Revabank program provides banking functionality in the form of:
+ * 		Deposits
+ * 		Withdrawals
+ * 		Multiple Accounts
+ * 		Checking Accounts
+ * 		Saving Accounts
+ * 		Persistent Data stored with Amazon RDS
+ *
+ * @author	Stephen
+ * @version	1.0
+ * @since 	2020-08-26
+ */
 public class AppDriver {
 	public static AppState app = new AppState();
 

@@ -67,12 +67,17 @@ public class AccountService {
 		return null;
 	}
 
+	/**
+	 * Attempts to make a deposit to the current <code>{@link Account}</code> balance.
+	 * @param amount the amount to deposit
+	 * @return the amount deposited, if any. Else, returns 0D.
+	 */
 	public Double deposit(Double amount) {
 		//edge cases
 		if (amount < 0) {
 			//TODO throw new custom exception
 			throw new NegativeTransactionException("Negative deposits are not allowed.");
-		}
+		} else if(amount == 0) return 0D;
 		if (amount + app.getCurrentAccount().getBalance() == Double.POSITIVE_INFINITY) { //
 			//TODO throw new custom exception
 			throw new OverflowTransactionException("Infinite Money. You've crashed all economies.");
@@ -103,16 +108,15 @@ public class AccountService {
 
 	/**
 	 * Withdraws amount from account and returns the amount withdrawn.
-	 *
 	 * @param amount The amount to withdraw
-	 * @return amount
+	 * @return the amount withdrawn, if any
 	 */
 	public Double withdraw(Double amount) {
 		//edge cases
 		if (amount < 0) {
 			//TODO throw new custom exception
 			throw new NegativeTransactionException("Negative withdrawals are not allowed.");
-		}
+		} else if (amount == 0) return 0D;
 		if (app.getCurrentAccount().getBalance() - amount < 0) {
 			//TODO throw new custom exception
 			throw new TransactionException("Withdrawal failed: lack of funds.");
@@ -126,6 +130,12 @@ public class AccountService {
 
 	}
 
+	/**
+	 * Adds an account to the <code>{@link com.revature.revabank.util.AppState}</code>'s Current User.
+	 * @param balance the balance to initialize the account with.
+	 * @param accountType the <code>{@link AccountType}</code> of account.
+	 * @param accountName the user-specified name of the account.
+	 */
 	public void addAccount(String balance, String accountType, String accountName){
 		Double bal = Double.parseDouble(balance);
 		if(bal.compareTo(startingValueMinimum) < 0){
