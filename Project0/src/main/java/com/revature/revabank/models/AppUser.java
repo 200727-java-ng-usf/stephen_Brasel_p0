@@ -1,6 +1,7 @@
 package com.revature.revabank.models;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 public class AppUser {
@@ -12,13 +13,13 @@ public class AppUser {
 	private transient String password;
 	private String email;
 	private Role role;
-	private ArrayList<Account> accounts;
+	private Set<Account> accounts;
 	//endregion
 
 	//region Constructors
 	public AppUser(){
 		super();
-		accounts = new ArrayList<>();
+		accounts = new HashSet<>();
 	}
 
 	public AppUser(String firstName, String lastName, String userName, String password, String email) {
@@ -29,7 +30,7 @@ public class AppUser {
 		this.password = password;
 		this.email = email;
 	}
-	public AppUser(String firstName, String lastName, String userName, String password, String email, ArrayList<Account> accounts) {
+	public AppUser(String firstName, String lastName, String userName, String password, String email, Set<Account> accounts) {
 		this(firstName, lastName, userName, password, email);
 		this.role = Role.PATRON;
 	}
@@ -37,7 +38,7 @@ public class AppUser {
 		this(firstName, lastName, userName, password, email);
 		this.role = role;
 	}
-	public AppUser(int id, String firstName, String lastName, String userName, String password, String email, Role role, ArrayList<Account> accounts) {
+	public AppUser(int id, String firstName, String lastName, String userName, String password, String email, Role role, Set<Account> accounts) {
 		this(firstName, lastName, userName, password, email, role);
 		this.id = id;
 		this.accounts = accounts;
@@ -113,8 +114,12 @@ public class AppUser {
 		this.role = role;
 	}
 
-	public ArrayList<Account> getAccounts() {
+	public Set<Account> getAccounts() {
 		return accounts;
+	}
+
+	public void setAccounts(Set<Account> accounts) {
+		this.accounts = accounts;
 	}
 
 	public void addAccount(Account account) {
@@ -157,6 +162,18 @@ public class AppUser {
 				", email='" + email + '\'' +
 				", role=" + role +
 				", accounts=" + accounts +
+				'}';
+	}
+
+	public String toString(boolean accounts) {
+		if(accounts) return toString();
+		return "AppUser{" +
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", userName='" + userName + '\'' +
+				", email='" + email + '\'' +
+				", role=" + role +
 				'}';
 	}
 

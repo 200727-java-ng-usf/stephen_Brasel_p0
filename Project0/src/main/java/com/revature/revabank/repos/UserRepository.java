@@ -21,7 +21,8 @@ public class UserRepository implements CrudRepository<AppUser>{
 	 * 			"JOIN revabank.user_roles ur " +
 	 * 			"ON au.role_id = ur.id "
 	 */
-	private String baseQuery = "SELECT * FROM revabank.app_users au " +
+	private String baseQuery =
+			"SELECT * FROM revabank.app_users au " +
 			"JOIN revabank.user_roles ur " +
 			"ON au.role_id = ur.id ";
 	//endregion
@@ -34,12 +35,47 @@ public class UserRepository implements CrudRepository<AppUser>{
 
 	//region Methods
 	public Set<AppUser> findUsersByRole(Role role){
-		return new HashSet<>();
+//		return new HashSet<>();
+		Set<AppUser> _user = new HashSet<>();
+
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+
+			String sql = baseQuery + "WHERE role_id = ?";
+
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Role.getOrdinal(role));
+
+			ResultSet rs =  pstmt.executeQuery();
+			_user = mapResultSet(rs);
+
+
+		} catch(SQLException sqle){
+			sqle.printStackTrace();
+		}
+
+		return _user;
 	}
 
 	public Optional<AppUser> findUserByUsername(String username){
 //		return userDataset.findUserByUsername(username);
-		return Optional.of(null);
+//		return Optional.of(null);
+		Optional<AppUser> _user = Optional.empty();
+
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+
+			String sql = baseQuery + "WHERE username = ?";
+
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, username);
+
+			ResultSet rs =  pstmt.executeQuery();
+			_user = mapResultSet(rs).stream().findFirst();
+
+		} catch(SQLException sqle){
+			sqle.printStackTrace();
+		}
+
+		return _user;
 	}
 
 	public Optional<AppUser> findUserByCredentials(String username, String password){
@@ -49,7 +85,7 @@ public class UserRepository implements CrudRepository<AppUser>{
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
 
 			String sql = baseQuery
-					+ "WHERE username = ? AND password = ? "
+					+ "WHERE username = ? AND user_password = ? "
 					;
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, username);
@@ -75,14 +111,13 @@ public class UserRepository implements CrudRepository<AppUser>{
 			AppUser temp = new AppUser();
 
 			temp.setId(rs.getInt("id"));
-			temp.setUserName(rs.getString("username"));
-			temp.setPassword(rs.getString("password"));
 			temp.setFirstName(rs.getString("first_name"));
 			temp.setLastName(rs.getString("last_name"));
-//				temp.setEmail(rs.getString("email"));
-			// TODO figure out how to set the Role of an AppUser using a ResultSet
-			temp.setRole(Role.getByName(rs.getString("name")));
-			System.out.println(temp);
+			temp.setUserName(rs.getString("username"));
+			temp.setPassword(rs.getString("user_password"));
+			temp.setEmail(rs.getString("email"));
+			temp.setRole(Role.getByName(rs.getString("role_name")));
+//			System.out.println(temp);
 
 			users.add(temp);
 		}
@@ -97,18 +132,24 @@ public class UserRepository implements CrudRepository<AppUser>{
 		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
 
 			String sql =
-					"INSERT INTO revabooks.app_users " +
-							"(username, password, first_name, last_name, email, role_id) " +
+					"INSERT INTO revabank.app_users " +
+							"(" +
+							"first_name" +
+							", last_name" +
+							", username" +
+							", user_password" +
+							", email" +
+							", role_id) " +
 							//(username, password, first_name, last_name, email, role_id)
 							"VALUES (?, ?, ?, ?, ?, ?) "
 //					"VALUES (0, ?, ?, ?, ?, ?, ?) "
 					;
 			// second parameter here is used to indicate column names that will have generated values
 			PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"id"});
-			pstmt.setString(1, newUser.getUserName());
-			pstmt.setString(2, newUser.getPassword());
-			pstmt.setString(3, newUser.getFirstName());
-			pstmt.setString(4, newUser.getLastName());
+			pstmt.setString(1, newUser.getFirstName());
+			pstmt.setString(2, newUser.getLastName());
+			pstmt.setString(3, newUser.getUserName());
+			pstmt.setString(4, newUser.getPassword());
 			pstmt.setString(5, newUser.getEmail());
 //			pstmt.setString(5, newUser.getFirstName().toLowerCase().charAt(0)
 //					+ newUser.getLastName().toLowerCase()
@@ -135,12 +176,43 @@ public class UserRepository implements CrudRepository<AppUser>{
 
 	@Override
 	public Set<AppUser> findAll(){
-		return new HashSet<>();
+//		return new HashSet<>();
+		Set<AppUser> _user = new HashSet<>();
+
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+
+			PreparedStatement pstmt = conn.prepareStatement(baseQuery);
+
+			ResultSet rs =  pstmt.executeQuery();
+			_user = mapResultSet(rs);
+
+		} catch(SQLException sqle){
+			sqle.printStackTrace();
+		}
+
+		return _user;
 	}
 
 	@Override
-	public AppUser findById(String id){
-		return null;
+	public Optional<AppUser> findById(int id){
+//		return new HashSet<>();
+		Optional<AppUser> _user = Optional.empty();
+
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+
+			String sql = baseQuery + "WHERE id = ?";
+
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+
+			ResultSet rs =  pstmt.executeQuery();
+			_user = mapResultSet(rs).stream().findFirst();
+
+		} catch(SQLException sqle){
+			sqle.printStackTrace();
+		}
+
+		return _user;
 	}
 
 	@Override
@@ -149,8 +221,53 @@ public class UserRepository implements CrudRepository<AppUser>{
 	}
 
 	@Override
-	public boolean deleteById(String id){
+	public boolean deleteById(int id){
+		Optional<AppUser> _user = Optional.empty();
+
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+
+			String sql = "delete from revabank.app_users au "
+					+ "WHERE id = ?";
+
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+
+			ResultSet rs =  pstmt.executeQuery();
+			_user = mapResultSet(rs).stream().findFirst();
+
+		} catch(SQLException sqle){
+			sqle.printStackTrace();
+			return false;
+		}
+
 		return true;
+	}
+
+	public Set<AppUser> findUsersByAccountId(int id) {
+//		return new HashSet<>();
+		Set<AppUser> _user = new HashSet<>();
+
+		try (Connection conn = ConnectionFactory.getInstance().getConnection()){
+
+			String sql = "SELECT * FROM revabank.account_users au " +
+					"FULL OUTER JOIN revabank.app_users apusr " +
+					"ON au.account_user_id = apusr.id " +
+					"JOIN revabank.user_roles ur " +
+					"ON apusr.role_id = ur.id " +
+					"WHERE au.account_user_id = ? ";
+
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+
+			ResultSet rs =  pstmt.executeQuery();
+			_user = mapResultSet(rs);
+
+
+		} catch(SQLException sqle){
+			sqle.printStackTrace();
+		}
+
+		return _user;
 	}
 	//endregion
 }

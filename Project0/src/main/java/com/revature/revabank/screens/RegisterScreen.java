@@ -4,6 +4,8 @@ import com.revature.revabank.models.AppUser;
 import com.revature.revabank.services.AccountService;
 import com.revature.revabank.services.UserService;
 
+import java.sql.SQLOutput;
+
 import static com.revature.revabank.AppDriver.app;
 
 public class RegisterScreen extends Screen{
@@ -27,7 +29,7 @@ public class RegisterScreen extends Screen{
 	@Override
 	public void render() {
 
-		String accountType, firstName, lastName, userName, password, email;
+		String firstName, lastName, userName, password, email;
 
 		try{
 			System.out.println("Sign up for a new account!");
@@ -41,18 +43,13 @@ public class RegisterScreen extends Screen{
 			password = app.getConsole().readLine().trim();
 			System.out.print("Email: ");
 			email = app.getConsole().readLine().trim();
-			System.out.print("Account Type: \n"
-							+"1) Checking\n"
-							+"2) Savings\n"
-			);
-			accountType = app.getConsole().readLine().trim();
 
 			AppUser newUser = new AppUser(firstName, lastName, userName, password, email);
 
-			userService.register(newUser, accountType);
+			userService.register(newUser);
 
 			if(app.isSessionValid()){
-				accountService.addAccount(accountType);
+				app.getRouter().navigate("/newAccount");
 				app.getRouter().navigate("/dashboard");
 			}
 

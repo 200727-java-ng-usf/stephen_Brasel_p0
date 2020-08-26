@@ -1,53 +1,75 @@
 package com.revature.revabank.screens;
 
-import com.revature.revabank.models.Account;
+import com.revature.revabank.services.AccountService;
 
-import java.io.IOException;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import static com.revature.revabank.AppDriver.app;
 
 public class AccountScreen extends Screen{
+	/**
+	 "View Balance"<br>
+	 ,"Withdraw"<br>
+	 ,"Deposit"<br>
+	 ,"Return to Account Manager"<br>
+	 */
+	private String[] options = {
+			"View Balance"
+			,"Withdraw"
+			,"Deposit"
+			,"Return to Dashboard"
+	};
+	private AccountService accountService;
 
-	public AccountScreen(){
+	public AccountScreen(AccountService accountService){
 		super("AccountScreen", "/account");
-
+		this.accountService = accountService;
 	}
-
 	/**
 	 * Renders the login screen menu to the console.
 	 */
 	@Override
 	public void render(){
-		for(Account acc :app.getCurrentUser().getAccounts()){
-			System.out.println(acc);
+		NumberFormat us   = NumberFormat.getCurrencyInstance(Locale.US);
+		String prompt;
+		while(isScreenValid){
+			System.out.println("Please choose an option:");
+			for (int i = 1; i <= options.length; i++) {
+				System.out.println(i + ") " + options[i-1]);
+			}
+			try{
+				System.out.print("> ");
+				prompt = app.getConsole().readLine().trim();
+
+				switch (prompt){
+					case "1":
+						System.out.println(app.getCurrentAccount().getBalance());
+						break;
+					case "2":
+						System.out.println("How much would you like to withdraw? ");
+						System.out.print("> ");
+						prompt = app.getConsole().readLine().trim();
+						accountService.withdraw(BigDecimal.valueOf(Double.parseDouble(prompt)));
+						break;
+					case "3":
+						System.out.println("How much would you like to deposit? ");
+						System.out.print("> ");
+						prompt = app.getConsole().readLine().trim();
+						accountService.deposit(BigDecimal.valueOf(Double.parseDouble(prompt)));
+						break;
+					case "4":
+						isScreenValid = false;
+						break;
+					default:
+						System.out.println("[LOG] - Invalid Selection!");
+						break;
+				}
+			} catch(Exception e) {
+			    e.printStackTrace();
+			}
 		}
-//		String prompt;
-//
-//		while(app.isSessionValid()){
-//			System.out.println("Welcome to your Dashboard!\n");
-//			System.out.println("1) Search Books");
-//			System.out.println("2) View Profile");
-//			System.out.println("3) Logout");
-//			try {
-//				System.out.print("> ");
-//				prompt = app.getConsole().readLine().trim();
-//
-//				switch (prompt) {
-//					case "1":
-//						app.getRouter().navigate("/search");
-//						break;
-//					case "2":
-//						app.getRouter().navigate("/profile");
-//						break;
-//					case "3":
-//						app.invalidateCurrentSession();
-//						break;
-//					default:
-//						System.out.println("[LOG] - Invalid Selection!");
-//						break;
-//				}
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
+
 	}
 }

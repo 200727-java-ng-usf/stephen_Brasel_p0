@@ -20,8 +20,8 @@ public enum AccountType {
 	}
 
 	public static int getOrdinal(AccountType accountType){
-		for (int i = 0; i < Role.values().length; i++) {
-			if(AccountType.values()[i] == accountType) return i+1;
+		for (int i = 0; i < AccountType.values().length; i++) {
+			if(AccountType.values()[i] == accountType) return i + 1;
 		}
 		return getOrdinal(AccountType.CHECKING);
 	}

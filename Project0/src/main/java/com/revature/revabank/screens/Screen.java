@@ -3,6 +3,7 @@ package com.revature.revabank.screens;
 public abstract class Screen {
 	private String name;
 	private String route;
+	protected boolean isScreenValid = true;
 
 	public Screen(String name, String route){
 		System.out.println("[LOG] - Instantiating " + this.getClass().getName());

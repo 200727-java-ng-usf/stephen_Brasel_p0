@@ -39,12 +39,14 @@ public class HomeScreen extends Screen{
 				case "3": case "exit":
 					app.setAppRunning(false);
 					break;
+					//region testing
 				case "hi": case "hello":
 					System.out.println("Well, hello!");
 					break;
 				case "roll tide!":
 					System.out.println("Roll Tide!");
 					break;
+					//endregion
 				default:
 					System.out.println("[LOG] - Invalid Selection!");
 					break;

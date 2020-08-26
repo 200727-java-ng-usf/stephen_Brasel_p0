@@ -45,7 +45,8 @@ public class UserService {
 
 	public void authenticate(String username, String password){
 		// Validate that the provided username and password are not non-values
-		if(username == null || username.trim().equals("") || password == null || password.trim().equals("")){
+		if(username == null || username.trim().equals("")
+				|| password == null || password.trim().equals("")){
 			throw new InvalidRequestException("Invalid credential values provided");
 		}
 		AppUser authUser = userRepo.findUserByCredentials(username, password)
@@ -60,7 +61,7 @@ public class UserService {
 //		return authUser;
 	}
 
-	public void register(AppUser newUser, String accountType){
+	public void register(AppUser newUser){
 		//
 		if(!isUserValid(newUser)){
 			throw new InvalidRequestException("Invalid user field values provided during registration!");

@@ -28,14 +28,18 @@ public class AppState {
 		console = new BufferedReader(new InputStreamReader(System.in));
 
 		final UserRepository userRepo = new UserRepository();
-		final AccountRepository accountRepo = new AccountRepository();
+		final AccountRepository accountRepo = new AccountRepository(userRepo);
 		final UserService userService = new UserService(userRepo);
 		final AccountService accountService = new AccountService(accountRepo);
 
 		router = new ScreenRouter();
+
+		//THESE ONLY NEED THE SERVICES, NEVER THE REPOS.
 		router.addScreen(new HomeScreen())
 				.addScreen(new DashboardScreen())
-				.addScreen(new AccountScreen())
+				.addScreen(new AccountManagerScreen(accountService))
+				.addScreen(new AccountScreen(accountService))
+				.addScreen(new NewAccountScreen(accountService))
 				.addScreen(new TransferScreen())
 				.addScreen(new UserProfileScreen())
 				.addScreen(new LoginScreen(userService))

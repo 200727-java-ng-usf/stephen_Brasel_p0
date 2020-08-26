@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import static com.revature.revabank.AppDriver.app;
 
 public class DashboardScreen extends Screen{
-	String[] options = {
-			 "Withdraw"
-			,"Deposit"
+	private String[] options = {
+			 "Accounts"
 			,"View Profile"
 			,"Logout"
 	};
@@ -27,9 +26,9 @@ public class DashboardScreen extends Screen{
 		String prompt;
 
 		while(app.isSessionValid()){
-			System.out.println("Welcome to your Dashboard!\n");
+			System.out.println("Welcome to your Dashboard!");
 			for (int i = 1; i <= options.length; i++) {
-				System.out.println(i + ") " + options[i-1] + "\n");
+				System.out.println(i + ") " + options[i-1]);
 			}
 			try {
 				System.out.print("> ");
@@ -37,7 +36,7 @@ public class DashboardScreen extends Screen{
 
 				switch (prompt) {
 					case "1":
-						app.getRouter().navigate("/search");
+						app.getRouter().navigate("/accounts");
 						break;
 					case "2":
 						app.getRouter().navigate("/profile");

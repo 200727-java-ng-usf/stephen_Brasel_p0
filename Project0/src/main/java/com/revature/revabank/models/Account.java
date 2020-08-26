@@ -1,32 +1,29 @@
 package com.revature.revabank.models;
 
-import java.util.Objects;
-import java.util.Stack;
+import java.util.*;
 import java.math.BigDecimal;
 
 public class Account {
 	//region Fields
-	private String id;
-	private AppUser owner;
-	private String name;
+	private int id;
 	private BigDecimal balance = BigDecimal.ZERO;
-	private Stack<Transaction> history;
-	private AccountType type;
+	private AccountType type = AccountType.CHECKING;
+	private String name = type.toString();
+	private Set<AppUser> owners;
+	private ArrayList<Transaction> history;
 	//endregion
 
 	//region Constructors
 
 	public Account() {
 		super();
+		owners = new HashSet<>();
+		history = new ArrayList<>();
 	}
 
-	public Account(AccountType type) {
-		this.type = type;
-	}
-
-	public Account(String id, AppUser owner, String name, BigDecimal balance, Stack<Transaction> history, AccountType type) {
+	public Account(int id, Set<AppUser> owners, String name, BigDecimal balance, ArrayList<Transaction> history, AccountType type) {
 		this.id = id;
-		this.owner = owner;
+		this.owners = owners;
 		this.name = name;
 		this.balance = balance;
 		this.history = history;
@@ -37,20 +34,24 @@ public class Account {
 	//endregion
 
 	//region Getters and Setters
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public AppUser getOwner() {
-		return owner;
+	public Set<AppUser> getOwners() {
+		return owners;
 	}
 
-	public void setOwner(AppUser owner) {
-		this.owner = owner;
+	public void setOwners(Set<AppUser> owners) {
+		this.owners = owners;
+	}
+
+	public void addOwner(AppUser user){
+		owners.add(user);
 	}
 
 	public String getName() {
@@ -69,7 +70,7 @@ public class Account {
 		this.balance = balance;
 	}
 
-	public Stack<Transaction> getHistory() {
+	public ArrayList<Transaction> getHistory() {
 		return history;
 	}
 
@@ -81,11 +82,10 @@ public class Account {
 		this.type = type;
 	}
 
-	public void setHistory(Stack<Transaction> history) {
+	public void setHistory(ArrayList<Transaction> history) {
 		this.history = history;
 	}
 	//endregion
-
 
 	@Override
 	public boolean equals(Object o) {
@@ -93,7 +93,7 @@ public class Account {
 		if (o == null || getClass() != o.getClass()) return false;
 		Account account = (Account) o;
 		return Objects.equals(id, account.id) &&
-				Objects.equals(owner, account.owner) &&
+				Objects.equals(owners, account.owners) &&
 				Objects.equals(name, account.name) &&
 				Objects.equals(balance, account.balance) &&
 				Objects.equals(history, account.history) &&
@@ -102,14 +102,14 @@ public class Account {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, owner, name, balance, history, type);
+		return Objects.hash(id, owners, name, balance, history, type);
 	}
 
 	@Override
 	public String toString() {
 		return "Account{" +
 				"id='" + id + '\'' +
-				", owner=" + owner +
+//				", owners=" + Arrays.toString(owners.stream().map(elem -> elem.toString(false)).toArray()) +
 				", name='" + name + '\'' +
 				", balance=" + balance +
 				", history=" + history +
