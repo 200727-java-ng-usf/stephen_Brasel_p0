@@ -75,11 +75,9 @@ public class AccountService {
 	public Double deposit(Double amount) {
 		//edge cases
 		if (amount < 0) {
-			//TODO throw new custom exception
 			throw new NegativeTransactionException("Negative deposits are not allowed.");
 		} else if(amount == 0) return 0D;
 		if (amount + app.getCurrentAccount().getBalance() == Double.POSITIVE_INFINITY) { //
-			//TODO throw new custom exception
 			throw new OverflowTransactionException("Infinite Money. You've crashed all economies.");
 		}
 		if(accountRepo.update(amount)) {
@@ -114,11 +112,9 @@ public class AccountService {
 	public Double withdraw(Double amount) {
 		//edge cases
 		if (amount < 0) {
-			//TODO throw new custom exception
 			throw new NegativeTransactionException("Negative withdrawals are not allowed.");
 		} else if (amount == 0) return 0D;
-		if (app.getCurrentAccount().getBalance() - amount < 0) {
-			//TODO throw new custom exception
+		if (app.getCurrentAccount().getBalance() < amount) {
 			throw new TransactionException("Withdrawal failed: lack of funds.");
 		}
 		if(accountRepo.update(-amount)) {
@@ -139,7 +135,6 @@ public class AccountService {
 	public void addAccount(String balance, String accountType, String accountName){
 		Double bal = Double.parseDouble(balance);
 		if(bal.compareTo(startingValueMinimum) < 0){
-			//TODO throw new custom exception
 			throw new TransactionException("Balance too small to start an account");
 		}
 		Account acc = new Account();

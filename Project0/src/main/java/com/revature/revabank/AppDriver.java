@@ -20,6 +20,9 @@ import com.revature.revabank.util.AppState;
  * @version	1.0
  * @since 	2020-08-26
  */
+//TODO
+// Upon register, log the user in.
+// Move minimumstartingbalance to AppState
 public class AppDriver {
 	public static AppState app = new AppState();
 
@@ -27,14 +30,6 @@ public class AppDriver {
 		while(app.isAppRunning()){
 			app.getRouter().navigate("/home");
 		}
-//		UserRepository userRepo = new UserRepository();
-//		UserService userService = new UserService(userRepo);
-//
-//		RegisterScreen registerScreen = new RegisterScreen(userService);
-//		registerScreen.render();
-//
-//		LoginScreen loginScreen = new LoginScreen(userService);
-//		loginScreen.render();
 	}
 
 }
