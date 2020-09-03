@@ -1,0 +1,20 @@
+# designates the parent image. 
+# Useful because public images already exist for environments to run most projects, 
+# 	such as an Asp.NET image with the .NET Runtime or a Java image with the JRE
+FROM openjdk:8
+
+# tells Docker to copy files or folders from the host system into the image’s file system. 
+# This is how you populate an image with files. 
+# ADD is similar, but with the ability to copy from URLs online and unpack .tar.gz files
+COPY Project0-1.0-SNAPSHOT-jar-with-dependencies.jar /
+# sets the working directory of the image, 
+# sort of like how the cd command sets the working directory of the terminal
+WORKDIR /target/
+# tells Docker how to run your image as a series of commands for the terminal. 
+# For example, ENTRYPOINT [“java”, “-jar”, “myprogram.jar”] 
+# 	will tell Docker to run the command java -jar myprogram.jar, 
+# 	which will run that program as long as it is in the working directory
+ENTRYPOINT ["java", "-jar", "Project0-1.0-SNAPSHOT-jar-with-dependencies.jar"]
+
+# docker build -t project0 .
+# docker run -i project0
